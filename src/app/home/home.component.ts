@@ -5,6 +5,8 @@ import { HousingLocation } from '../housinglocation';
 import { HousingService } from '../housing.service';
 import { Resp } from '../resp';
 import { LocalStorageService } from '../local-storage.service';
+import { User } from '../user';
+import { Observable, interval, Subscription  } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +24,18 @@ import { LocalStorageService } from '../local-storage.service';
     </section>
     <section>
       <form>
-        <button class="primary" type="button" (click)="makeReq()">Request</button>
+        <button class="primary" type="button" (click)="getUsers()">getUsers</button>
+      </form>
+    </section>
+    <section>
+      <form>
+        <button class="primary" type="button" (click)="getUsersPrivate()">getUsersPrivate</button>
+      </form>
+    </section>
+
+    <section>
+      <form>
+        <button class="primary" type="button" (click)="login()">login</button>
       </form>
     </section>
     <section>
@@ -35,8 +48,12 @@ import { LocalStorageService } from '../local-storage.service';
         <button class="primary" type="button" (click)="loadFromStorage()">load</button>
       </form>
     </section>
-    
-    
+    <section>
+      <form>
+        <button class="primary" type="button" (click)="uns()">unsubscribe</button>
+      </form>
+    </section>
+
     <section class="results">
       <app-housing-location
         *ngFor="let housingLocation2 of filteredLocationList" [housingLocation]="housingLocation2">
@@ -52,11 +69,23 @@ export class HomeComponent {
 
   housingService: HousingService = inject(HousingService);
 
+  mySubscription: Subscription;
+
   constructor(private localStorageService: LocalStorageService) {
     this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
       this.housingLocationList = housingLocationList;
       this.filteredLocationList = housingLocationList;
     });
+
+
+    this.mySubscription = interval(1000).subscribe(x => {
+      console.log("called");
+  });
+
+  }
+
+  uns(){
+    this.mySubscription.unsubscribe();
   }
 
   filterResults(text: string) {
@@ -70,13 +99,22 @@ export class HomeComponent {
     );
   }
 
-  makeReq() {
+  getUsers() {
     console.log("clicked!!!")
-    this.housingService.getResp()
-    .then((resp: Resp) => {
-      console.log(resp)
+    this.housingService.getUsers()
+    .then((users: User[]) => {
+      console.log(users)
     })
   }
+
+  getUsersPrivate() {
+    console.log("clicked!!!")
+    this.housingService.getUsersPrivate()
+    .then((users: User[]) => {
+      console.log(users)
+    })
+  }
+
 
   saveToStorage() {
     console.log("clicked!!!")
@@ -89,6 +127,13 @@ export class HomeComponent {
     console.log(value);
   }
 
-  
+  login(){
+    this.housingService.login()
+    .then((basicAuthToken: string) => {
+      console.log(basicAuthToken)
+      this.localStorageService.setItem('token', basicAuthToken);
+    })
+  }
+
 
 }
