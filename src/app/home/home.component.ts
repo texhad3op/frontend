@@ -35,9 +35,22 @@ import { Observable, interval, Subscription  } from 'rxjs';
 
     <section>
       <form>
-        <button class="primary" type="button" (click)="login()">login</button>
+        <button class="primary" type="button" (click)="login('admin','admin')">login admin</button>
       </form>
     </section>
+
+    <section>
+      <form>
+        <button class="primary" type="button" (click)="login('jura','jura')">login jura</button>
+      </form>
+    </section>
+
+    <section>
+      <form>
+        <button class="primary" type="button" (click)="login('third','third')">login third</button>
+      </form>
+    </section>
+
     <section>
       <form>
         <button class="primary" type="button" (click)="saveToStorage()">save</button>
@@ -127,8 +140,8 @@ export class HomeComponent {
     console.log(value);
   }
 
-  login(){
-    this.housingService.login()
+  login(login: string, password: string){
+    this.housingService.login(login, password)
     .then((basicAuthToken: string) => {
       console.log(basicAuthToken)
       this.localStorageService.setItem('token', basicAuthToken);
