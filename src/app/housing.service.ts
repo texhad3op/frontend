@@ -51,18 +51,14 @@ export class HousingService {
     return await data.json() ?? [];
   }
 
-  async login(): Promise<string>{
-
-
+  async login(login: string, password: string): Promise<string>{
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Content-Type', 'application/json');
-
     const data = await fetch('http://localhost:8080/public/authorize',
     {
       method: 'POST',
-      //mode: 'cors',
       headers: requestHeaders,
-      body: JSON.stringify(new LoginRequest("admin", "admin"))
+      body: JSON.stringify(new LoginRequest(login, password))
     });
 
 
