@@ -6,7 +6,7 @@ import { HousingService } from '../housing.service';
 import { Resp } from '../resp';
 import { LocalStorageService } from '../local-storage.service';
 import { User } from '../user';
-import { Observable, interval, Subscription  } from 'rxjs';
+import { Observable, interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -72,6 +72,7 @@ export class HomeComponent {
   mySubscription: Subscription;
 
   constructor(private localStorageService: LocalStorageService) {
+    let a: number = 54;
     this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
       this.housingLocationList = housingLocationList;
       this.filteredLocationList = housingLocationList;
@@ -80,11 +81,11 @@ export class HomeComponent {
 
     this.mySubscription = interval(1000).subscribe(x => {
       console.log("called");
-  });
+    });
 
   }
 
-  uns(){
+  uns() {
     this.mySubscription.unsubscribe();
   }
 
@@ -102,17 +103,17 @@ export class HomeComponent {
   getUsers() {
     console.log("clicked!!!")
     this.housingService.getUsers()
-    .then((users: User[]) => {
-      console.log(users)
-    })
+      .then((users: User[]) => {
+        console.log(users)
+      })
   }
 
   getUsersPrivate() {
     console.log("clicked!!!")
     this.housingService.getUsersPrivate()
-    .then((users: User[]) => {
-      console.log(users)
-    })
+      .then((users: User[]) => {
+        console.log(users)
+      })
   }
 
 
@@ -127,12 +128,12 @@ export class HomeComponent {
     console.log(value);
   }
 
-  login(){
+  login() {
     this.housingService.login()
-    .then((basicAuthToken: string) => {
-      console.log(basicAuthToken)
-      this.localStorageService.setItem('token', basicAuthToken);
-    })
+      .then((basicAuthToken: string) => {
+        console.log(basicAuthToken)
+        this.localStorageService.setItem('token', basicAuthToken);
+      })
   }
 
 
