@@ -1,0 +1,10 @@
+docker build --tag test/jg-frontend .
+docker run --name my_nginx -p80:80 test/jg-frontend
+
+docker exec -it my_nginx sh
+
+docker run -it --rm -d -p 8080:80 --name web -v ~/dist:/usr/share/nginx/html nginx
+
+-----------------------------------------
+docker build --tag test/jg-frontend .
+docker run -it --rm -d -p 4200:4200 --name web test/jg-frontend
