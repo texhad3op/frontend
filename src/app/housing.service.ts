@@ -60,8 +60,6 @@ export class HousingService {
       headers: requestHeaders,
       body: JSON.stringify(new LoginRequest(login, password))
     });
-
-
     return await data.text() ?? "error";
   }
 

@@ -7,11 +7,6 @@ import { PurchaseLinesListComponent } from './purchases/purchase-lines/purchase-
 
 
 const routeConfig: Routes = [
-  // {
-  //   path: '',
-  //   component: HomeComponent,
-  //   title: 'Home page'
-  // },
   {
     path: '',
     component: PurchasesListComponent,
